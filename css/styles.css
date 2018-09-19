@@ -1,0 +1,39 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: orange;  
+}
+
+#game {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: 'orange';
+	width: 100vw;
+	height: 100vh;
+	min-width: 1000px;
+	min-height: 800px;
+}
+
+.field {
+	width: 70vw;
+	margin: 30px auto;
+	background: #000;
+	position: relative;
+}
+
+.fly {
+	position: absolute;	
+}
+
+	.flyLeft {
+		left: 0;
+	}
+
+	.flyRight {
+		right: 0;
+	}
+
+
