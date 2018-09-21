@@ -117,24 +117,30 @@ class Game {
           break;
         case 97: if (this.flyLeft.yCoord <= 500 - this.flyLeft.height - this.step) { this.flyLeft.move(this.step) };
           break;  
-        case 122: this.rockets.push(new Rocket({
-                                                  parentEl: this.fieldEl,
-                                                  yCoord: this.flyLeft.yCoord,
-                                                  xCoord: this.flyLeft.width,
-                                                  type: 'left'
-                                                }));
+        case 122: 
+          if (this.flyLeft.rocketsCnt <= 0) { break; }
+          this.rockets.push(new Rocket({
+            parentEl: this.fieldEl,
+            yCoord: this.flyLeft.yCoord,
+            xCoord: this.flyLeft.width,
+            type: 'left'
+          }));
+          this.flyLeft.rocketsCnt--;
           break;               
         case 119: if (this.flyRight.yCoord >= this.step) { this.flyRight.move(-this.step) };
           break;
         case 115: if (this.flyRight.yCoord <= 500 - this.flyRight.height - this.step) { this.flyRight.move(this.step) };
           break;
-        case 120: this.rockets.push(new Rocket({
-                                                  parentEl: this.fieldEl,
-                                                  yCoord: this.flyRight.yCoord,
-                                                  xCoord: this.fieldWidth - this.flyRight.width,
-                                                  type: 'right',
-                                                  step: -5
-                                                }));          
+        case 120: 
+          if (this.flyRight.rocketsCnt <= 0 ) { break; }
+          this.rockets.push(new Rocket({
+            parentEl: this.fieldEl,
+            yCoord: this.flyRight.yCoord,
+            xCoord: this.fieldWidth - this.flyRight.width,
+            type: 'right',
+            step: -5
+          }));
+          this.flyRight.rocketsCnt--;
       }
     });
   }
