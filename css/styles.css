@@ -4,6 +4,8 @@ html, body {
   padding: 0;
   position: relative;
   background: orange;  
+  min-width: 1300px;
+  overflow: auto;
 }
 
 #game {
@@ -18,7 +20,7 @@ html, body {
 }
 
 .field {
-	width: 70vw;
+	width: 900px;
 	margin: 30px auto;
 	background: #000;
 	position: relative;
@@ -35,5 +37,16 @@ html, body {
 	.flyRight {
 		right: 0;
 	}
+
+.panel {
+	position: absolute;
+	width: 100px;
+	padding: 10px;
+	border: 1px solid red;
+	background: #000;
+	overflow: hidden;
+	color: #fff;
+}
+
 
 

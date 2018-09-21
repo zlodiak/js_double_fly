@@ -16,6 +16,7 @@ class Game {
       yCoord: 100,
       energy: 100,
       rocketsCnt: 50,
+      score: 0,
       downKeyCode: 97,
       upKeyCode: 113,
       fireKeyCode: 122
@@ -28,10 +29,27 @@ class Game {
       yCoord: 100,
       energy: 100,
       rocketsCnt: 50,
+      score: 0,
       downKeyCode: 115,
       upKeyCode: 119,
       fireKeyCode: 120
     });
+
+    this.leftPanel = new Panel({
+      selfId: 'leftPanelBox',
+      parentEl: this.gameEl,
+      left: '20px',
+      right: 'auto',
+      top: '20px'
+    }); 
+
+    this.rightPanel = new Panel({
+      selfId: 'rightPanelBox',
+      parentEl: this.gameEl,
+      left: 'auto',
+      right: '20px',
+      top: '20px'
+    });     
 
     this.render();
     this.keysListen();
@@ -60,7 +78,23 @@ class Game {
         flyRightEl.style.background = this.flyRight.background;        
         this.fieldEl.appendChild(flyRightEl);         
       }
-    }, 100);
+
+      if (this.leftPanel) {
+        this.leftPanel.setValues({
+          energyValue: this.flyLeft.energy,
+          rocketsValue: this.flyLeft.rocketsCnt,
+          scoreValue: this.flyLeft.score
+        });
+      }
+
+      if (this.rightPanel) {
+        this.rightPanel.setValues({
+          energyValue: this.flyRight.energy,
+          rocketsValue: this.flyRight.rocketsCnt,
+          scoreValue: this.flyRight.score
+        });
+      }
+    }, 1000);
   }
 
   keysListen() {
@@ -89,6 +123,7 @@ class Fly {
     this.yCoord = initObj.yCoord;
     this.energy = initObj.energy;
     this.rocketsCnt = initObj.rocketsCnt;
+    this.score = initObj.score;
     this.downKeyCode = initObj.downKeyCode;
     this.upKeyCode = initObj.upKeyCode;    
     this.fireKeyCode = initObj.fireKeyCode;    
@@ -96,6 +131,56 @@ class Fly {
 
   move(yCoordDelta) {
     this.yCoord += yCoordDelta;
+  }
+
+}
+
+class Panel {
+
+  constructor(initObj) {
+    this.enetgyEl = null;
+    this.rocketsEl = null;
+    this.scoreEl = null;
+    this.panelEl = null;
+    this.selfId = initObj.selfId;
+    this.top = initObj.top;
+    this.left = initObj.left;
+    this.right = initObj.right;
+    this.parentEl = initObj.parentEl;
+    this.render();
+  }
+
+  setValues(valuesObj) {
+    if (!this.panelEl) { return; }
+    this.panelEl.querySelector('.energyBox .value').innerHTML = valuesObj.energyValue;
+    this.panelEl.querySelector('.rocketsBox .value').innerHTML = valuesObj.rocketsValue;
+    this.panelEl.querySelector('.scoreBox .value').innerHTML = valuesObj.scoreValue;
+    
+  }
+
+  render() {
+    this.panelEl = document.createElement('div');
+    this.panelEl.id += this.selfId;
+    this.panelEl.className += ' panel';
+    this.panelEl.style.top = this.top;
+    this.panelEl.style.left = this.left;
+    this.panelEl.style.right = this.right;
+    this.parentEl.appendChild(this.panelEl);   
+
+    const energyEl = document.createElement('div');
+    energyEl.className += ' energyBox';
+    energyEl.innerHTML += '<span class="title">Energy: </span><span class="value"></span>';
+    this.panelEl.appendChild(energyEl);
+     
+    const rocketsEl = document.createElement('div');
+    rocketsEl.className += ' rocketsBox';
+    rocketsEl.innerHTML += '<span class="title">Rockets: </span><span class="value"></span>';
+    this.panelEl.appendChild(rocketsEl);
+
+    const scoreEl = document.createElement('div');
+    scoreEl.className += ' scoreBox';
+    scoreEl.innerHTML += '<span class="title">Score: </span><span class="value"></span>';
+    this.panelEl.appendChild(scoreEl);           
   }
 
 }
