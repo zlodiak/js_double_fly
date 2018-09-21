@@ -20,7 +20,6 @@ html, body {
 }
 
 .field {
-	width: 900px;
 	margin: 30px auto;
 	background: #000;
 	position: relative;
@@ -48,5 +47,7 @@ html, body {
 	color: #fff;
 }
 
-
+.rocket {
+	position: absolute;
+}
 
