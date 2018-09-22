@@ -27,7 +27,7 @@ class Game {
 
   createPanels() {
     this.leftPanel = new Panel({
-      selfId: 'leftPanelBox',
+      id: 'leftPanelBox',
       parentEl: this.gameEl,
       left: '20px',
       right: 'auto',
@@ -35,7 +35,7 @@ class Game {
     }); 
 
     this.rightPanel = new Panel({
-      selfId: 'rightPanelBox',
+      id: 'rightPanelBox',
       parentEl: this.gameEl,
       left: 'auto',
       right: '20px',
@@ -190,7 +190,7 @@ class Panel {
     this.rocketsEl = null;
     this.scoreEl = null;
     this.panelEl = null;
-    this.selfId = initObj.selfId;
+    this.id = initObj.id;
     this.top = initObj.top;
     this.left = initObj.left;
     this.right = initObj.right;
@@ -208,7 +208,7 @@ class Panel {
 
   render() {
     this.panelEl = document.createElement('div');
-    this.panelEl.id += this.selfId;
+    this.panelEl.id += this.id;
     this.panelEl.className += ' panel';
     this.panelEl.style.top = this.top;
     this.panelEl.style.left = this.left;
