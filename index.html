@@ -11,7 +11,13 @@
 	<body>
     <div id="game"></div>
     <script>
-    	new Game();
+    	new Game({
+    		gameEl: document.getElementById('game') || document.body,
+    		fieldHeight: 500,
+    		fieldWidth: 900,
+    		stepFly: 10,
+    		tick: 10
+    	});
     </script>
 	</body>
 </html>

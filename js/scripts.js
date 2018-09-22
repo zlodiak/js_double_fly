@@ -1,48 +1,31 @@
 class Game {
 
-  constructor() {
-    this.gameEl = document.getElementById('game');
-    this.fieldHeight = 500;
-    this.fieldWidth = 900;
+  constructor(initObj) {
+    this.gameEl = initObj.gameEl;
+    this.fieldHeight = initObj.fieldHeight;
+    this.fieldWidth = initObj.fieldWidth;
+    this.stepFly = initObj.stepFly;
+    this.tick = initObj.tick;
+
+    this.rockets = [];
+
+    this.createField();
+    this.createFlys();
+    this.createPanels();
+
+    this.startGameCycle();
+    this.startKeysListen();
+  }
+
+  createField() {
     this.fieldEl = document.createElement('div');
     this.fieldEl.classList.add('field');
     this.fieldEl.style.height = this.fieldHeight + 'px';
     this.fieldEl.style.width = this.fieldWidth + 'px';
-    this.gameEl.appendChild(this.fieldEl);    
-    this.step = 10;
-    this.rockets = [];
-    this.thick = 100;
+    this.gameEl.appendChild(this.fieldEl);      
+  }
 
-    this.flyLeft = new Fly({
-      parentEl: this.fieldEl,
-      class: 'flyLeft',
-      background: 'red',
-      width: 20,
-      height: 10,      
-      yCoord: 100,
-      energy: 100,
-      rocketsCnt: 50,
-      score: 0,
-      downKeyCode: 97,
-      upKeyCode: 113,
-      fireKeyCode: 122
-    });
-
-    this.flyRight = new Fly({
-      parentEl: this.fieldEl,
-      class: 'flyRight',      
-      background: 'yellow',
-      width: 20,
-      height: 10,
-      yCoord: 100,
-      energy: 100,
-      rocketsCnt: 50,
-      score: 0,
-      downKeyCode: 115,
-      upKeyCode: 119,
-      fireKeyCode: 120
-    });
-
+  createPanels() {
     this.leftPanel = new Panel({
       selfId: 'leftPanelBox',
       parentEl: this.gameEl,
@@ -57,13 +40,42 @@ class Game {
       left: 'auto',
       right: '20px',
       top: '20px'
-    });     
-
-    this.render();
-    this.keysListen();
+    }); 
   }
 
-  render() {    
+  createFlys() {
+    this.flyLeft = new Fly({
+      parentEl: this.fieldEl,
+      class: 'flyLeft',
+      background: 'red',
+      width: 20,
+      height: 10,      
+      yCoord: this.fieldHeight / 2,
+      energy: 100,
+      rocketsCnt: 50,
+      score: 0,
+      downKeyCode: 97,
+      upKeyCode: 113,
+      fireKeyCode: 122
+    });
+
+    this.flyRight = new Fly({
+      parentEl: this.fieldEl,
+      class: 'flyRight',      
+      background: 'yellow',
+      width: 20,
+      height: 10,
+      yCoord: this.fieldHeight / 2,
+      energy: 100,
+      rocketsCnt: 50,
+      score: 0,
+      downKeyCode: 115,
+      upKeyCode: 119,
+      fireKeyCode: 120
+    });    
+  }
+
+  startGameCycle() {
     setInterval(() => {
       if (this.gameEl) {
         this.fieldEl.innerHTML = '';
@@ -99,12 +111,12 @@ class Game {
     }, this.tick);
   }
 
-  keysListen() {
+  startKeysListen() {
     document.addEventListener('keypress', (e) => {
       switch(e.keyCode) {
-        case 113: if (this.flyLeft.yCoord >= this.step) { this.flyLeft.move(-this.step) };
+        case 113: if (this.flyLeft.yCoord >= this.stepFly) { this.flyLeft.move(-this.stepFly) };
           break;
-        case 97: if (this.flyLeft.yCoord <= 500 - this.flyLeft.height - this.step) { this.flyLeft.move(this.step) };
+        case 97: if (this.flyLeft.yCoord <= this.fieldHeight - this.flyLeft.height - this.stepFly) { this.flyLeft.move(this.stepFly) };
           break;  
         case 122: 
           if (this.flyLeft.rocketsCnt <= 0) { break; }
@@ -116,9 +128,9 @@ class Game {
           }));
           this.flyLeft.rocketsCnt--;
           break;               
-        case 119: if (this.flyRight.yCoord >= this.step) { this.flyRight.move(-this.step) };
+        case 119: if (this.flyRight.yCoord >= this.stepFly) { this.flyRight.move(-this.stepFly) };
           break;
-        case 115: if (this.flyRight.yCoord <= 500 - this.flyRight.height - this.step) { this.flyRight.move(this.step) };
+        case 115: if (this.flyRight.yCoord <= this.fieldHeight - this.flyRight.height - this.stepFly) { this.flyRight.move(this.stepFly) };
           break;
         case 120: 
           if (this.flyRight.rocketsCnt <= 0 ) { break; }
