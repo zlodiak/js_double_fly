@@ -15,6 +15,11 @@ class Game {
 
     this.startGameCycle();
     this.startKeysListen();
+
+      document.addEventListener('click', () => {
+    console.log('ddd')
+    debugger;
+  });
   }
 
   createField() {
@@ -83,10 +88,21 @@ class Game {
         this.flyLeft.render();
         this.flyRight.render();
 
-        this.rockets.forEach(rocket => {
+        this.rockets.forEach((rocket, index) => {
+          if (this._isCollideFlyLeft(rocket)) {
+            this.flyLeft.energy -= 10;
+            this.rockets.splice(index, 1);
+          }
+
+          if (this._isCollideFlyRight(rocket)) {
+            this.flyRight.energy -= 10;
+            this.rockets.splice(index, 1);
+          }          
+
           if (rocket.xCoord < parseInt(this.fieldEl.style.width) && rocket.type === 'left') {
             rocket.move();
           }
+
           if (rocket.xCoord > 0 && rocket.type === 'right') {
             rocket.move();
           }           
@@ -145,6 +161,24 @@ class Game {
       }
     });
   }
+
+  _isCollideFlyLeft(rocket) {
+    if (rocket.xCoord < this.flyLeft.width && 
+        rocket.yCoord >= this.flyLeft.yCoord && 
+        rocket.yCoord <= this.flyLeft.yCoord + this.flyLeft.height) 
+    {
+      return true;
+    };
+  }
+
+  _isCollideFlyRight(rocket) {
+    if (rocket.xCoord > (this.fieldWidth - this.flyRight.width) && 
+        rocket.yCoord >= this.flyRight.yCoord && 
+        rocket.yCoord <= this.flyRight.yCoord + this.flyRight.height) 
+    {
+      return true;
+    };
+  }  
 
 }
 
