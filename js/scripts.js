@@ -14,6 +14,8 @@ class Game {
     this.thick = 100;
 
     this.flyLeft = new Fly({
+      parentEl: this.fieldEl,
+      class: 'flyLeft',
       background: 'red',
       width: 20,
       height: 10,      
@@ -27,6 +29,8 @@ class Game {
     });
 
     this.flyRight = new Fly({
+      parentEl: this.fieldEl,
+      class: 'flyRight',      
       background: 'yellow',
       width: 20,
       height: 10,
@@ -64,23 +68,17 @@ class Game {
       if (this.gameEl) {
         this.fieldEl.innerHTML = '';
 
-        const flyLeftEl = document.createElement('div');
-        flyLeftEl.className += ' flyLeft';
-        flyLeftEl.className += ' fly';
-        flyLeftEl.style.top = this.flyLeft.yCoord + 'px';
-        flyLeftEl.style.width = this.flyLeft.width + 'px';
-        flyLeftEl.style.height = this.flyLeft.height + 'px';
-        flyLeftEl.style.background = this.flyLeft.background;
-        this.fieldEl.appendChild(flyLeftEl); 
+        this.flyLeft.render();
+        this.flyRight.render();
 
-        const flyRightEl = document.createElement('div');
-        flyRightEl.className += ' flyRight';
-        flyRightEl.className += ' fly';
-        flyRightEl.style.top = this.flyRight.yCoord + 'px';
-        flyRightEl.style.width = this.flyRight.width + 'px';
-        flyRightEl.style.height = this.flyRight.height + 'px';        
-        flyRightEl.style.background = this.flyRight.background;        
-        this.fieldEl.appendChild(flyRightEl);         
+        this.rockets.forEach(rocket => {
+          if (rocket.xCoord < parseInt(this.fieldEl.style.width) && rocket.type === 'left') {
+            rocket.move();
+          }
+          if (rocket.xCoord > 0 && rocket.type === 'right') {
+            rocket.move();
+          }           
+        });        
       }
 
       if (this.leftPanel) {
@@ -98,15 +96,6 @@ class Game {
           scoreValue: this.flyRight.score
         });
       }
-
-      this.rockets.forEach(rocket => {
-        if (rocket.xCoord < parseInt(this.fieldEl.style.width) && rocket.type === 'left') {
-          rocket.move();
-        }
-        if (rocket.xCoord > 0 && rocket.type === 'right') {
-          rocket.move();
-        }           
-      });
     }, this.tick);
   }
 
@@ -150,6 +139,8 @@ class Game {
 class Fly {
 
   constructor(initObj) {
+    this.parentEl = initObj.parentEl;
+    this.class = initObj.class;
     this.background = initObj.background;
     this.width = initObj.width;
     this.height = initObj.height;
@@ -159,7 +150,19 @@ class Fly {
     this.score = initObj.score;
     this.downKeyCode = initObj.downKeyCode;
     this.upKeyCode = initObj.upKeyCode;    
-    this.fireKeyCode = initObj.fireKeyCode;    
+    this.fireKeyCode = initObj.fireKeyCode;
+    this.render();
+  }
+
+  render() {
+    const flyEl = document.createElement('div');
+    flyEl.className += ' ' + this.class;
+    flyEl.className += ' fly';
+    flyEl.style.top = this.yCoord + 'px';
+    flyEl.style.width = this.width + 'px';
+    flyEl.style.height = this.height + 'px';
+    flyEl.style.background = this.background;
+    this.parentEl.appendChild(flyEl);     
   }
 
   move(yCoordDelta) {
