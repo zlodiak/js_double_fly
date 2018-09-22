@@ -15,11 +15,6 @@ class Game {
 
     this.startGameCycle();
     this.startKeysListen();
-
-      document.addEventListener('click', () => {
-    console.log('ddd')
-    debugger;
-  });
   }
 
   createField() {
@@ -97,15 +92,23 @@ class Game {
           if (this._isCollideFlyRight(rocket)) {
             this.flyRight.energy -= 10;
             this.rockets.splice(index, 1);
-          }          
+          }    
 
-          if (rocket.xCoord < parseInt(this.fieldEl.style.width) && rocket.type === 'left') {
-            rocket.move();
+          if (rocket.type === "left") {
+            if (rocket.xCoord < this.fieldWidth) {
+              rocket.move();
+            } else if (rocket.xCoord >= this.fieldWidth) {
+              this.rockets.splice(index, 1);
+            }
           }
 
-          if (rocket.xCoord > 0 && rocket.type === 'right') {
-            rocket.move();
-          }           
+          if (rocket.type === "right") {
+            if (rocket.xCoord > 0) {
+              rocket.move();
+            } else if (rocket.xCoord <= 0) {
+              this.rockets.splice(index, 1);
+            }
+          }                         
         });        
       }
 
