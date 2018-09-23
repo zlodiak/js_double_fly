@@ -86,11 +86,13 @@ class Game {
         this.rockets.forEach((rocket, index) => {
           if (this._isCollideFlyLeft(rocket)) {
             this.flyLeft.energy -= 10;
+            this.flyRight.score += 100;
             this.rockets.splice(index, 1);
           }
 
           if (this._isCollideFlyRight(rocket)) {
             this.flyRight.energy -= 10;
+            this.flyLeft.score += 100;
             this.rockets.splice(index, 1);
           }    
 
@@ -127,6 +129,14 @@ class Game {
           scoreValue: this.flyRight.score
         });
       }
+
+      if (this.flyRight.energy <= 0) {
+        this._restartGame('left');
+      }
+
+      if (this.flyLeft.energy <= 0) {
+        this._restartGame('right');
+      }      
     }, this.tick);
   }
 
@@ -181,7 +191,14 @@ class Game {
     {
       return true;
     };
-  }  
+  }
+
+  _restartGame(winnerLabel) {
+    this.rockets = [];
+    document.body.innerHTML = '';
+    window.location.reload();
+    alert(winnerLabel + ' fly winner');
+  }
 
 }
 
