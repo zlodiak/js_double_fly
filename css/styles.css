@@ -13,6 +13,12 @@ html, body {
 	z-index: 999;
 }
 
+.info {
+	position: fixed;
+	bottom: 100px;
+	width: 100%;
+}
+
 #game {
 	position: fixed;
 	top: 0;
