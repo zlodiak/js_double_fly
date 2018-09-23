@@ -8,6 +8,11 @@ html, body {
   overflow: auto;
 }
 
+.github {
+	position: fixed;
+	z-index: 999;
+}
+
 #game {
 	position: fixed;
 	top: 0;
