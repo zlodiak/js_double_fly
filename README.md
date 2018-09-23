@@ -1,1 +1,1 @@
-live demo: zlodiak.github.io/html/double_fly/
+live demo: <a href="zlodiak.github.io/html/double_fly/">zlodiak.github.io/html/double_fly/</a>
